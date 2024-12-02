@@ -36,8 +36,6 @@ pub fn main() !void {
 
         try left.append(first);
         try right.append(second);
-
-        // std.debug.print("Integers are '{}' and '{}' of types {} and {}\n", .{ first, second, @TypeOf(first), @TypeOf(second) });
     }
 
     std.mem.sort(u32, left.items, {}, comptime std.sort.asc(u32));
