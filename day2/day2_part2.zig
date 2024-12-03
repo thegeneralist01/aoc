@@ -47,33 +47,22 @@ pub fn main() !void {
 
     var input_buf = std.ArrayListUnmanaged(u8){};
     defer input_buf.deinit(ally);
-    var integer_buf = std.ArrayListUnmanaged(u32){};
-    defer integer_buf.deinit(ally);
 
     var integer_slice = std.ArrayList(u32).init(ally);
     defer integer_slice.deinit();
+
     var integer_slice_dup = std.ArrayList(u32).init(ally);
     defer integer_slice_dup.deinit();
 
     var safe_levels: u32 = 0;
     while (true) {
         defer input_buf.clearRetainingCapacity();
-        file_reader.streamUntilDelimiter(input_buf.writer(ally), '\n', null) catch |err| switch (err) {
-            error.EndOfStream => break,
-            else => break,
-        };
+        try file_reader.streamUntilDelimiter(input_buf.writer(ally), '\n', null);
 
         var integers = std.mem.splitSequence(u8, input_buf.items, " ");
-        const integer_count: usize = integers.rest().len;
-        try integer_buf.ensureTotalCapacity(ally, integer_count);
-
-        integers = std.mem.splitSequence(u8, input_buf.items, " ");
         integer_slice.clearRetainingCapacity();
         while (integers.next()) |integer| {
-            const int = std.fmt.parseInt(u32, integer, 10) catch |err| {
-                std.debug.print("Error parsing integer: {}\n", .{err});
-                continue;
-            };
+            const int = try std.fmt.parseInt(u32, integer, 10);
             try integer_slice.append(int);
         }
 
