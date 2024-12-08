@@ -1,11 +1,6 @@
 const std = @import("std");
 const input = @embedFile("input");
 
-const Coord = struct {
-    x: i32,
-    y: i32,
-};
-
 const Direction = struct {
     x: i64,
     y: i64,
@@ -56,7 +51,7 @@ pub fn main() !void {
     const ally = gpa.allocator();
     defer _ = gpa.deinit();
 
-    var lines = std.mem.tokenize(u8, input, "\r\n");
+    var lines = std.mem.tokenize(u8, input, "\n");
 
     var grid = std.ArrayList([]const u8).init(ally);
     defer grid.deinit();

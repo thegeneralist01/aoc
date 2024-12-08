@@ -1,11 +1,6 @@
 const std = @import("std");
 const input = @embedFile("input");
 
-const Coord = struct {
-    x: i32,
-    y: i32,
-};
-
 const Direction = struct {
     x: i64,
     y: i64,
